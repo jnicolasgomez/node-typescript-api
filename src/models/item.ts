@@ -1,15 +1,10 @@
 import {Schema, Types, model, Model} from 'mongoose';
-import { Car } from '../interfaces/car.interface';
+import { Movie } from '../interfaces/movie.interface';
 
-const ItemSchema = new Schema<Car>(
+const ItemSchema = new Schema<Movie>(
     {
-        color: {
+        title: {
             type: String,
-            required: true
-        },
-        gas: {
-            type: String,
-            enum: ["gasoline", "electric"],
             required: true
         },
         year: {
@@ -20,7 +15,7 @@ const ItemSchema = new Schema<Car>(
             type: String,
             required: true
         },
-        price: {
+        score: {
             type: Number,
             required: true
         }

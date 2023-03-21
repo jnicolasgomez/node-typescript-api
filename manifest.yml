@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cinema-back
+  name: cinema-back
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cinema-back
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: cinema-back
+    spec:
+      containers:
+      - image: 579741038344.dkr.ecr.us-east-2.amazonaws.com/cinema-back-repository:latest
+        name: cinema-back
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 3002 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cinema-back
+  labels:
+    run: cinema-back
+spec:
+  ports:
+  - port: 3002
+    targetPort: 3002
+    protocol: TCP
+  selector:
+    app: cinema-back
+  type: NodePort
