@@ -2,7 +2,7 @@ import { Client } from 'pg'
 
 const connectionData = {
     user: process.env.APP_ENV_PG_USER,
-    host: '',
+    host: process.env.APP_ENV_PG_HOST,
     database: process.env.APP_ENV_PG_DATABASE,
     password: process.env.APP_ENV_PG_PASSWORD,
     port: process.env.APP_ENV_PG_PORT as unknown as number
