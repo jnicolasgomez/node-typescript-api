@@ -6,7 +6,7 @@ metadata:
     app: cinema-back
   name: cinema-back
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: cinema-back
@@ -18,12 +18,17 @@ spec:
         app: cinema-back
     spec:
       containers:
-      - image: 579741038344.dkr.ecr.us-east-2.amazonaws.com/cinema-back-repository:latest
+      - image: 579741038344.dkr.ecr.us-east-2.amazonaws.com/cinema-back-repository:1.0.1-beta.1
         name: cinema-back
         imagePullPolicy: Always
         resources: {}
         ports:
-          - containerPort: 3002 
+          - containerPort: 3002
+        env:
+          - name: APP_ENV_PG_PASSWORD
+            value: mysecretpassword
+          - name: APP_ENV_PG_HOST
+            value: postgres
 status: {}
 
 ---
@@ -31,9 +36,9 @@ status: {}
 apiVersion: v1
 kind: Service
 metadata:
-  name: cinema-back
+  name: cinema-back-service
   labels:
-    run: cinema-back
+    run: cinema-back-service
 spec:
   ports:
   - port: 3002

@@ -28,10 +28,12 @@ const updateMovie = (req: Request, res: Response) => {
     }
 }
 
-const postMovie = async ({body}: Request, res: Response) => {
+const postMovie = async (req: Request, res: Response) => {
     try {
-        const responseInsert = await insertMovie(body as Movie);
-        res.send(responseInsert);
+        console.log('req body')
+        console.log(req.body);
+        const movieId = await insertMovie(req.body as Movie);
+        res.send(`Created Movie with id ${movieId}`);
     } catch (e) {
         handleHttp(res,"ERROR_POST_Movie",e);
     }

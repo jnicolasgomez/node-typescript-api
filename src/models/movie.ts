@@ -1,19 +1,36 @@
 import dbConnect from "../config/postgres"
+import { Movie } from "../interfaces/movie.interface";
 
 
 
-export async function selectTable() {
+export async function getMovies() {
   const client = dbConnect();
-  (await client).query('SELECT * FROM user')
-  .then(async (response: { rows: any; }) => {
-      console.log(response.rows);
-      ;(await client).end()
-  })
-  .catch(async (err: any) => {
-      console.log('catch err');
-      console.log(err);
-      (await client).end()
-  })
-  // throw new Error("Function not implemented.")
+  try {
+    const result = await (await client).query('SELECT * FROM movies');
+    return result.rows as Movie[];
+  } catch (err) {
+    console.error('Error getting movie:', (err as unknown as Error).stack);
+  } finally {
+    (await client).end();
+  }
+  (await client).end();
+}
+
+export async function createMovie(movie: Movie) {
+  const client = dbConnect();
+  const query = {
+    text: 'INSERT INTO movies (title, year, description, score) VALUES ($1, $2, $3, $4) RETURNING id',
+    values: [movie.title, movie.year, movie.description, movie.score],
+  };
+
+  try {
+    const result = await (await client).query(query);
+    console.log(`Created movie with ID: ${result.rows[0].id}`);
+    return result.rows[0].id;
+  } catch (err) {
+    console.error('Error creating movie:', (err as unknown as Error).stack);
+  } finally {
+    (await client).end();
+  }
 }
 

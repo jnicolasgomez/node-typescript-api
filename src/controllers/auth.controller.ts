@@ -11,7 +11,6 @@ const registerController = async (req: Request, res: Response) => {
                 email: req.body.email,
                 password: req.body.password
             };
-            console.log(user)
             const response = await registerService(user);
             res.send(response);
         } else {

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cinema-postgres
+  labels:
+    app: cinema-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cinema-postgres
+  template:
+    metadata:
+      labels:
+        app: cinema-postgres
+    spec:
+      containers:
+      - name: cinema-postgres
+        image: 579741038344.dkr.ecr.us-east-2.amazonaws.com/cinema-postgres:latest
+        env:
+        - name: POSTGRES_PASSWORD
+          value: mysecretpassword
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-data
+        emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+  - name: postgres
+    port: 5432
+  selector:
+    app: cinema-postgres
