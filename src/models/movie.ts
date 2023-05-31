@@ -6,7 +6,7 @@ import { Movie } from "../interfaces/movie.interface";
 export async function getMovies() {
   const client = dbConnect();
   try {
-    const result = await (await client).query('SELECT * FROM movies');
+    const result = await (await client).query('SELECT * FROM concerts');
     return result.rows as Movie[];
   } catch (err) {
     console.error('Error getting movie:', (err as unknown as Error).stack);
@@ -19,8 +19,8 @@ export async function getMovies() {
 export async function createMovie(movie: Movie) {
   const client = dbConnect();
   const query = {
-    text: 'INSERT INTO movies (title, year, description, score) VALUES ($1, $2, $3, $4) RETURNING id',
-    values: [movie.title, movie.year, movie.description, movie.score],
+    text: 'INSERT INTO concerts (Artista, Nombre, Año, Lugar, Latitud, Longitud, coordinates) VALUES ($1, $2, $3, $4,$5,$6, $7) RETURNING id',
+    values: [movie.Artista, movie.Nombre, movie.Año, movie.Lugar, movie.Latitud, movie.Longitud, [movie.Latitud, movie.Longitud]],
   };
 
   try {

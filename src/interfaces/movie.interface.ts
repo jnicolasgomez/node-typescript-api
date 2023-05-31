@@ -1,6 +1,8 @@
 export interface Movie {
-    title: string,
-    year: number,
-    description: string,
-    score: number
+    Artista: string,
+    Nombre: number,
+    Año: string,
+    Lugar: number,
+    Latitud: string,
+    Longitud: string
 }
